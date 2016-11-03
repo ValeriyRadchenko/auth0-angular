@@ -159,14 +159,17 @@
                  * */
                 
                 authUtils.errorHandler = function(fn) {
-                  return function () {
-                    var args = Array.prototype.slice.call(arguments);
-                    if (args[0] !== null) {
-                      authUtils.safeApply(function () {
-                        fn.apply(null, args);
-                      });
+                    if (window.Auth0Lock || window.Auth0LockPasswordless) {
+                        return;
                     }
-                  };
+                    return function () {
+                        var args = Array.prototype.slice.call(arguments);
+                        if (args[0] !== null) {
+                            authUtils.safeApply(function () {
+                                fn.apply(null, args);
+                            });
+                        }
+                    };
                 };
                 
 
